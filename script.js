@@ -13,26 +13,139 @@ function divide(num1, num2){
 function operate(operator, num1, num2){
     switch (operator){
         case '+':
-            add(num1, num2);
-            break;
+            return add(Number(num1), Number(num2));
         case '-':
-            subtract(num1, num2);
-            break;
+            return subtract(Number(num1), Number(num2));
         case '*':
-            multiply(num1, num2);
-            break;
+            return multiply(Number(num1), Number(num2));
         case '/':
-            divide(num1, num2);
-            break;
+            return divide(Number(num1), Number(num2));
     }
 }
 const display = document.querySelector('.display');
+const digits = Array.from(document.querySelectorAll('.digit'));
+const operators = Array.from(document.querySelectorAll('.operator'));
+const clear = document.querySelector('.clean');
+const remove = document.querySelector('.delete');
+const equal = document.querySelector('.equal');
 const buttons = Array.from(document.querySelectorAll('button'));
+display.textContent = '0';
+let num1 = '';
+let num2 = '';
+let operator = '';
+let operation = 0;
+let res = '';
+digits.forEach((button) => {
+    button.addEventListener('click', () => {
+        if (operator === ''){
+            if (num1 === '0' || display.textContent === ''){
+                num1 = button.textContent;
+            } else{
+                num1 += button.textContent;
+            }
+            display.textContent = num1;
+        } else{
+            if (num2 === '0'){
+                num2 = button.textContent;
+            }
+            else{
+                num2 += button.textContent;
+                res = operate(operator, num1, num2);
+            }
+            display.textContent = num2;
+        }
+    })
+})
+operators.forEach((button) => {
+    button.addEventListener('click', () => {
+        if (num1 === '') return;
+        else{
+            operator = button.textContent;
+            display.textContent = operator;
+            operation += 1;
+        }
+        if (operation >= 2){
+            display.textContent = res;
+            num1 = display.textContent;
+            num2 = '';
+        };
+        console.log(operation);
+    
+    })
+})
+equal.addEventListener('click', () => {
+    if (operator !== '' && num1 !== '' && num2 != ''){
+        display.textContent = operate(operator, num1, num2);
+        num1 = display.textContent;
+        num2 = '';
+        operator = '';
+        operation = 0;
+    }
+})
+clear.addEventListener('click', () => {
+    num1 = '0';
+    num2 = '';
+    operator = '';
+    display.textContent = num1;
+    operation = 0;
+})
+remove.addEventListener('click', () => {
+    if (num1 !== '' && operator !== '' && num2 !== ''){
+        num2 = '';
+        display.textContent = operator;
+    } 
+    else if (num1 !== 0 && operator !== '' && num2 === ''){
+        operator = '';
+        display.textContent = num1;
+        operation -= 1;
+    }
+    else if (operator === '' && num2 === '' && num1 !== ''){
+        num1 = '';
+        display.textContent = '0';
+    }
+})
+
 /*buttons.forEach((button) => {
     button.addEventListener('click', (e) => {
-        display.textContent = button.textContent;
-    })
-});*/
-const num1 = null;
-const num2 = null;
-const operator = '';
+        if (num1 === ''){
+            display.textContent = '';
+            num1 += button.textContent;
+            display.textContent += num1;
+
+        }
+        else if (num1 !== '' && num2 === '' && operator === ''){
+            if (['+', '-', '/', '*'].includes(button.textContent)){
+                operator += button.textContent;
+                display.textContent = operator;
+            }
+        }
+        else if (num1 !== '' && operator !== '' && num2 === ''){
+            num2 += button.textContent;
+            display.textContent = num2;
+        }
+        if (button.textContent === 'C'){
+            num1 = '';
+            num2 = '';
+            operator = '';
+            display.textContent = 0;
+        }
+        else if (button.textContent === '='){
+            if (num2 !== '' && num1 !== '' && operator !== ''){
+                display.textContent = operate(operator, num1, num2);
+            }
+        }
+    })});*/
+
+/*operators.forEach((button) => {
+    button.addEventListener('click', (e) => {
+        display.textContent += ` ${e.target.textContent} `;
+})});
+equal.addEventListener('click', () => {
+    display.textContent = eval(display.textContent);
+});
+
+            display.textContent = operate(operator, num1, num2);
+            num1 = display.textContent;
+            num2 = '';
+            operator = '';
+*/
