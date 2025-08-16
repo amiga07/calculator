@@ -10,6 +10,9 @@ function multiply(num1, num2){
 function divide(num1, num2){
     return num1/num2;
 }
+function pow(num1, num2){
+    return num1**num2;
+}
 function operate(operator, num1, num2){
     switch (operator){
         case '+':
@@ -20,17 +23,11 @@ function operate(operator, num1, num2){
             return multiply(Number(num1), Number(num2));
         case '/':
             return divide(Number(num1), Number(num2));
+        case '^':
+            return pow(Number(num1), Number(num2));
     }
 }
-function countCharacter(text, char) {
-    let count = 0;
-    for (let i = 0; i < text.length; i++) {
-      if (text[i] === char) {
-        count++;
-      }
-    }
-    return count;
-  }
+
 const display = document.querySelector('.display');
 const digits = Array.from(document.querySelectorAll('.digit'));
 const operators = Array.from(document.querySelectorAll('.operator'));
@@ -38,7 +35,6 @@ const clear = document.querySelector('.clean');
 const remove = document.querySelector('.delete');
 const equal = document.querySelector('.equal');
 const buttons = Array.from(document.querySelectorAll('button'));
-const decimal = document.querySelector('.decimal');
 display.textContent = '0';
 let num1 = '';
 let num2 = '';
@@ -56,15 +52,16 @@ digits.forEach((button) => {
                 num1 += button.textContent;
             }
             display.textContent = num1;
-        } else{
-            if (num2 === '0'){
+        } 
+        else{
+            if (num2 === '0' || display.textContent === ''){
                 num2 = button.textContent;
             }
             else{
                 num2 += button.textContent;
                 res = operate(operator, num1, num2);
             }
-            display.textContent += num2;
+            display.textContent = num1 + operator + num2;
         }
     })
 })
@@ -104,7 +101,7 @@ clear.addEventListener('click', () => {
 remove.addEventListener('click', () => {
     if (num1 !== '' && operator !== '' && num2 !== ''){
         num2 = '';
-        display.textContent += operator;
+        display.textContent = num1 + operator;
     } 
     else if (num1 !== 0 && operator !== '' && num2 === ''){
         operator = '';
@@ -116,7 +113,4 @@ remove.addEventListener('click', () => {
         display.textContent = '0';
     }
 })
-decimal.addEventListener('click', () => {
-    num1 += '.';
-    display.textContent = num1;
-});
+
