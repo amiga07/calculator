@@ -118,4 +118,5 @@ remove.addEventListener('click', () => {
 })
 decimal.addEventListener('click', () => {
     num1 += '.';
+    display.textContent = num1;
 });
