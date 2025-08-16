@@ -64,7 +64,7 @@ digits.forEach((button) => {
                 num2 += button.textContent;
                 res = operate(operator, num1, num2);
             }
-            display.textContent = num2;
+            display.textContent += num2;
         }
     })
 })
@@ -73,12 +73,12 @@ operators.forEach((button) => {
         if (num1 === '') return;
         else{
             operator = button.textContent;
-            display.textContent = operator;
+            display.textContent += operator;
             operation += 1;
         }
         if (operation >= 2){
-            display.textContent = res;
-            num1 = display.textContent;
+            display.textContent = res + operator;
+            num1 = res;
             num2 = '';
         };
         console.log(operation);
@@ -104,7 +104,7 @@ clear.addEventListener('click', () => {
 remove.addEventListener('click', () => {
     if (num1 !== '' && operator !== '' && num2 !== ''){
         num2 = '';
-        display.textContent = operator;
+        display.textContent += operator;
     } 
     else if (num1 !== 0 && operator !== '' && num2 === ''){
         operator = '';
